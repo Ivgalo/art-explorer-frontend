@@ -1,12 +1,14 @@
 import "./Main.css";
 import { useEffect, useState } from "react";
 import { searchArtworks } from "../../utils/ThirdPartyApi";
+import Preloader from "../Preloader/Preloader";
 
 function Main() {
   const [artworks, setArtworks] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
   const [initialArtworks, setInitialArtworks] = useState([]);
 
   useEffect(() => {
@@ -20,7 +22,10 @@ function Main() {
   setInitialArtworks(data);
   setArtworks(data);
 })
-      .catch((error) => console.error(error))
+      .catch((error) => {
+  console.error(error);
+  setError("No pudimos cargar las obras. Intenta nuevamente.");
+})
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -29,6 +34,8 @@ function handleSearch(event) {
   event.preventDefault();
 
   setIsLoading(true);
+  setError("");
+  setArtworks([]);
   setVisibleCount(3);
 
   console.log("Estoy buscando:", searchQuery);
@@ -39,7 +46,10 @@ function handleSearch(event) {
       console.log("Cantidad de obras válidas:", data.length);
       setArtworks(data);
     })
-    .catch((error) => console.error(error))
+    .catch((error) => {
+  console.error(error);
+  setError("No pudimos completar la búsqueda. Intenta nuevamente.");
+})
     .finally(() => setIsLoading(false));
 }
 
@@ -50,12 +60,13 @@ function handleSearch(event) {
         Una galería de arte conectada con el mundo.
       </p>
 
- {isLoading && (
-  <p className="main__description">
-    Cargando obras... 🎨
+{isLoading && <Preloader />}
+{error && (
+  <p className="main__description" role="alert">
+    {error}
   </p>
 )}
-{!isLoading && artworks.length === 0 && (
+{!isLoading && !error && artworks.length === 0 && (
   <div className="main__empty">
     <p className="main__description">
       No encontramos obras disponibles. Intenta con otro artista.
