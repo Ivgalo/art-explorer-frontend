@@ -60,6 +60,23 @@ function handleSearch(event) {
         Una galería de arte conectada con el mundo.
       </p>
 
+      <form className="main__search" onSubmit={handleSearch}>
+  
+<input
+  className="main__input"
+  type="search"
+  placeholder="Busca un artista o una obra..."
+  aria-label="Buscar obras de arte"
+  value={searchQuery}
+  onChange={(event) => setSearchQuery(event.target.value)}
+  required
+/>
+
+  <button className="main__button" type="submit">
+    Buscar
+  </button>
+</form>
+
 {isLoading && <Preloader />}
 {error && (
   <p className="main__description" role="alert">
@@ -103,23 +120,6 @@ onClick={() => {
         {artwork.artistDisplayName || "Artista desconocido"}
       </p>
 
-<form className="main__search" onSubmit={handleSearch}>
-  
-<input
-  className="main__input"
-  type="search"
-  placeholder="Busca un artista o una obra..."
-  aria-label="Buscar obras de arte"
-  value={searchQuery}
-  onChange={(event) => setSearchQuery(event.target.value)}
-  required
-/>
-
-  <button className="main__button" type="submit">
-    Buscar
-  </button>
-</form>
-
     </article>
   ))}
 </div>
@@ -127,7 +127,7 @@ onClick={() => {
 {visibleCount < artworks.length && (
   <button
     type="button"
-    className="main__button"
+    className="main__button main__button_more"
     onClick={() => setVisibleCount(visibleCount + 3)}
   >
     Mostrar más
