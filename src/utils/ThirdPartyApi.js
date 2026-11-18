@@ -21,7 +21,7 @@ export async function searchArtworks(query) {
 
   
   const results = await Promise.allSettled(
-    result.objectIDs.map(async (id) => {
+    (result.objectIDs ?? []).map(async (id) => {
       const response = await fetch(
         `${BASE_URL}/v1/objects/${id}`
       );

@@ -1,0 +1,43 @@
+.preloader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.preloader__spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  font-size: 45px;
+  animation: palette-spin 2s linear infinite;
+}
+
+.preloader__spinner::before {
+  content: "🎨";
+}
+
+.preloader__text {
+  margin-top: 15px;
+  font-size: 16px;
+  text-align: center;
+}
+
+@keyframes palette-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader__spinner {
+    animation: none;
+  }
+}
